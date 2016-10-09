@@ -28,6 +28,10 @@ class CreateAppsTable extends Migration
             // hidden screenshots , sub-table show
             // $table->integer('screenshots'); // screenshots sub-table
             // $table->integer('address'); // download address
+            $table->integer('author'); // author id
+            $table->integer('downloadNumber')->default(0); // 下载量
+            $table->integer('visitNumber')->default(0); // 访问量
+            $table->timestamps();
         });
     }
 

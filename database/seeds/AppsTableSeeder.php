@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class AppsTableSeeder extends Seeder
 {
@@ -23,6 +24,10 @@ class AppsTableSeeder extends Seeder
                 'developer' => 'UC.ltd',
                 'platform'  =>  0,
                 'license'   =>  0,
+                'author'    =>  1,
+                'created_at'  =>  Carbon::now(),
+                'updated_at'  =>  Carbon::now(),
+
             ],
         ]);
     }

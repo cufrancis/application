@@ -12,3 +12,7 @@
 */
 
 Route::get('/', 'IndexController@index');
+
+// Route::group()
+// 显示分类
+Route::get('/type/{typeid}/show', ['as' => 'website.type.show', 'uses' => 'TypeController@show']);
