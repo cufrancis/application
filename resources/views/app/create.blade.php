@@ -32,7 +32,7 @@
     opacity: 0;filter:alpha(opacity=0); cursor: pointer;}
     .progress{
         position:relative;
-        /*margin-left:100px; 
+        /*margin-left:100px;
         margin-top:-24px;*/
         width:200px;padding: 1px; border-radius:3px; display:none}
     .bar {background-color: green; display:block; width:0%; height:20px;
@@ -45,6 +45,7 @@
 
     <div class="container">
     	<div class="hero-unit">
+            
 
             <div class="btn">
                 <span>添加附件</span>
