@@ -22,7 +22,7 @@
 
                 @foreach($apps as $app)
                     <tr>
-                        <td>{{ $app['name'] }}</td>
+                        <td><a href="{{ route('website.app.show', $app['id']) }}">{{ $app['name'] }}</a></td>
 
                         @if(Setting()->get('isShowSize'))
                             <td>{{ $app['size'] }}</td>

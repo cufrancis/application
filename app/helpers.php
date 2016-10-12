@@ -7,3 +7,10 @@ if (! function_exists('Setting')) {
         return app('App\Model\Setting');
     }
 }
+
+if(! function_exists('AppTypes')) {
+
+    function AppTypes(){
+        return app('App\Model\Type');
+    }
+}

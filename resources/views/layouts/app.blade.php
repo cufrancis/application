@@ -10,7 +10,9 @@
 	<title>{{ Setting()->get('website_title') }}</title>
 	<link rel="stylesheet" href="{{ asset('css/style.css') }}" />
 	<script>var Home = "{{ url('/') }}"</script>
-	<script src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
+	{{-- <script src="{{ asset('js/jquery-1.10.2.min.js') }}"></script> --}}
+	<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+	@yield('header')
 </head>
 <body>
 <div class="navbar">
@@ -18,7 +20,7 @@
 		<div class="container">
 			<div class="nav">
 				<li><a href="{{ url('/') }}">首页</a></li>
-				@foreach($types as $type)
+				@foreach(AppTypes()->getAll() as $type)
 					<li><a href="{{ route('website.type.show', $type['id']) }}"><?php echo $type['name'] ?></a></li>
 				@endforeach
 			</div>

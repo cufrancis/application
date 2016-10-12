@@ -65,6 +65,10 @@ class SettingsTableSeeder extends Seeder
             // 显示发布时间
             ['name' =>  'isShowDate',   'value' =>  1],
 
+            //上传文件设置
+            // 上传文件白名单
+            ['name' =>  'fileFilter', 'value'   =>  'zip,png,jpg,jpeg,exe'],
+
         ]);
     }
 }

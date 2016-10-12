@@ -31,6 +31,7 @@ class CreateAppsTable extends Migration
             $table->integer('author'); // author id
             $table->integer('downloadNumber')->default(0); // 下载量
             $table->integer('visitNumber')->default(0); // 访问量
+            $table->string('disk')->default(''); // 存在哪个磁盘系统中，local,s3,rackspace, or qiniu
             $table->timestamps();
         });
     }

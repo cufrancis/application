@@ -35,6 +35,14 @@ class Setting extends Model
      * @return [type] [description]
      */
     public function clearAll() {
+    }
 
+    static public function getFileFilter(){
+        $tmp = self::where('name', '=', 'fileFilter')->firstOrFail();
+        if($tmp){
+            $array = explode(',', $tmp);
+        }
+
+        return $array;
     }
 }
