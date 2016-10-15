@@ -14,12 +14,13 @@ class AppsTableSeeder extends Seeder
     {
         DB::table('apps')->insert([
             [
-                'name' =>  'UC Browser',
+                'title' =>  'UC Browser',
+                'filename' =>  'UC Browser',
                 'version'   =>  '1.3.2',
                 'introduction' => 'uc brower V1.3.2',
                 'img'   =>  'uc.ico',
 
-                'type'  =>  0,
+                // 'type'  =>  0,
                 'size'  =>  '35.8M',
                 'developer' => 'UC.ltd',
                 'platform'  =>  0,

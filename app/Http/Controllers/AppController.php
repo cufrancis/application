@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Pinyin;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 use App\Model\App;
 use App\Model\Type;
 use App\Model\Tag;
 use App\Model\Setting;
+use App\Model\Address;
+
 use App\Http\Requests;
 
 class AppController extends Controller
@@ -29,10 +34,8 @@ class AppController extends Controller
      */
     public function create()
     {
-        $types = Type::getAll('array');
         $hotTags = Tag::getHotTags();
-        // dd($hotTags);
-        // dd($types);
+        $types = Type::all();
         return view('app.create', compact('types', 'hotTags'));
     }
 
@@ -44,7 +47,19 @@ class AppController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        // dd($request);
+        $data = [
+            'title' =>  $request->title,
+            'filename'  => $request->filename,
+            'size'  =>  $request->filesize,
+            'introduction'  =>  $request->introduction,
+        ];
+        $store = App::create($data);
+
+        $address = new Address(['disk'   =>  'local', 'url'   => $request->fileurl]);
+        $address = $store->addresses()->save($address);
+
+        return redirect('/');
     }
 
     /**
@@ -55,8 +70,8 @@ class AppController extends Controller
      */
     public function show($id)
     {
-        // $app = App::where('id', '=', $id)->first()->get();
         $app = App::findOrFail($id);
+
         return view('app.show', compact('app'));
     }
 
@@ -96,24 +111,24 @@ class AppController extends Controller
 
     // Ajax 上传文件
     public function uploader(Request $request){
-
         $file = $request->file('file_upload');
 
-        $path = $file->store('files');
-        $tmp = explode('.', $file->getClientOriginalName());
-        $title = $tmp[0];
-        $filename   =   $file->getClientOriginalName(); // 文件名
-        $ext = $file->getMimeType(); // 文件格式 MIME
-        $size = $file->getClientSize(); // 文件大小
-        //
-        $file_info = array(
-            'url'  =>  $path,
-            'title' =>  $title,
-            'filename'  =>  $filename,
-            'ext'   =>  $ext,
-            'size'  =>  $size,
-        );
+        $title = splitFileName($file->getClientOriginalName());
 
+        $file->storeAs('public', Pinyin::permalink($title['name']).".".$title['ext']);
+
+        // 文件url
+        $url = Storage::url(Pinyin::permalink($title['name']).".".$title['ext']);
+
+
+        $file_info = array(
+            'url'  =>  $url,
+            'title' =>  $title['name'],
+            'filename'  =>  $file->getClientOriginalName(),
+            'ext'   =>  $title['ext'],
+            'size'  =>  formatBytes($file->getClientSize()),
+        );
+        //
         echo json_encode($file_info);
     }
 

@@ -15,8 +15,10 @@ class CreateAddressesTable extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('appid');
-            $table->string('url');
+            $table->integer('app_id');
+            $table->string('disk')->default(''); // 存储类型，local,s3 ,qiniu
+            $table->string('url')->default(''); // 地址
+            $table->timestamps();
         });
     }
 

@@ -20,7 +20,6 @@
     .uploadify:hover .uploadify-button {
         background-color: transparent;
     }
-
     .btn{position: relative;overflow: hidden;margin-right: 4px;display:inline-block;
     *display:inline;padding:4px 10px 4px;font-size:14px;line-height:18px;
     *line-height:20px;color:#fff;
@@ -45,7 +44,7 @@
 
     <div class="container">
     	<div class="hero-unit">
-            
+
 
             <div class="btn">
                 <span>添加附件</span>
@@ -128,7 +127,6 @@
     });
     </script>
     <script type="text/javascript">
-
     function Check(form)
     {
     	var type = document.getElementById("type").value;
@@ -150,12 +148,10 @@
     		return false;
     	}
     }
-
     function selecttag( tag )
     {
     	document.getElementById('tag').value += tag + ',';
     }
-
     </script>
 
     <script>
@@ -166,17 +162,15 @@
             var progress = $(".progress");
             var files = $(".files");
             var btn = $(".btn span");
-
             var title = document.getElementById("title");
-            var name  = document.getElementById("filename");
+            var filename  = document.getElementById("filename");
             var size  = document.getElementById("filesize");
             // var ext   = document.getElementById("fileext");
             var url   = document.getElementById("url");
-
             $("#file_upload").wrap("<form id='myupload' action='{{ route('website.app.uploader') }}' method='post' enctype='multipart/form-data'></form>");
             $("#myupload").change(function(){
                 $("#myupload").ajaxSubmit({
-                    dataType:  'json', //数据格式为json
+                    dataType:  'json',   //数据格式为json
                     data: {'_token': '{{ csrf_token() }}'},
                      beforeSend: function() { //开始上传
                          showimg.empty(); //清空显示的图片
@@ -194,7 +188,7 @@
                      success: function(data) { //成功
                         title.value = data.title;
                         url.value = data.url;
-                        name.value = data.filename;
+                        filename.value = data.filename;
                         size.value = data.size;
                         //  获得后台返回的json数据，显示文件名，大小，以及删除按钮
                         //  files.html("<b>"+data.filename+"("+data.size+"k)</b>
@@ -204,7 +198,6 @@
                         //  showimg.html("<img src='"+img+"'>");
                         btn.html("上传完成");
                         $(".myupload").hide();
-                        //  btn.html("添加附件"); //上传按钮还原
                      },
                      error:function(xhr){ //上传失败
                          btn.html("上传失败");
@@ -215,18 +208,4 @@
             });
         });
     </script>
-
-    {{-- <script type="text/javascript">
-        $(function() {
-            $('#file_upload').change(function(){
-                $.ajax({
-                    url: '{{ route('website.app.uploader') }}',
-                    dataType: 'json',
-                    success:function(data){
-                        alert(data);
-                    },
-                });
-            });
-        });
-    </script> --}}
 @endsection

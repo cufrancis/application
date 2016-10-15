@@ -63,9 +63,19 @@
 {{-- 文件标签：<br /> --}}
 发布日期：{{ $app['created_at'] }}<br />
 资源介绍：<br />{{ $app['introduction'] }}<br />
+<hr />
+    <div class="Download">
+        下载地址
+    </div>
+    @foreach($app->addresses()->get() as $address)
+        {{-- {{dd($address->url)}} --}}
+        <a href="{{ asset("$address->url") }}">{{ $address->disk }}</a>
+    @endforeach
 
     </div>
 </div>
+
+
 
 
 @endsection

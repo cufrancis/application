@@ -15,23 +15,25 @@ class CreateAppsTable extends Migration
     {
         Schema::create('apps', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name'); // Name
-            $table->string('version');
+            $table->string('title')->default("");
+            $table->string('filename'); // Name
+            $table->string('version')->default("");
             $table->text('introduction'); //
 
-            $table->string('img'); // img ico , not screenshots
-            $table->integer('type'); // sub-table
-            $table->string('size'); // unit Mbit
-            $table->string('developer'); // develop sub-table
-            $table->integer('platform'); // platform
-            $table->integer('license'); // license
+            $table->string('img')->default(""); // img ico , not screenshots
+            // $table->integer('type'); // sub-table
+            $table->string('size')->default("0K"); // unit Mbit
+            $table->string('developer')->default(""); // develop sub-table
+            $table->string('platform')->default(""); // platform
+            $table->string('license')->default(""); // license
             // hidden screenshots , sub-table show
             // $table->integer('screenshots'); // screenshots sub-table
             // $table->integer('address'); // download address
-            $table->integer('author'); // author id
+            $table->integer('author')->default(0); // author id
             $table->integer('downloadNumber')->default(0); // 下载量
             $table->integer('visitNumber')->default(0); // 访问量
             $table->string('disk')->default(''); // 存在哪个磁盘系统中，local,s3,rackspace, or qiniu
+            $table->string('originalName')->default(""); // 原来的名字
             $table->timestamps();
         });
     }

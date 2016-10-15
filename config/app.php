@@ -180,6 +180,9 @@ return [
 
         Collective\Html\HtmlServiceProvider::class,
 
+        Overtrue\LaravelPinyin\ServiceProvider::class,
+
+
 
     ],
 
@@ -231,6 +234,9 @@ return [
 
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+
+        'Pinyin' => Overtrue\LaravelPinyin\Facades\Pinyin::class,
+
 
     ],
 

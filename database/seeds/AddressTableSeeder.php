@@ -13,7 +13,8 @@ class AddressTableSeeder extends Seeder
     {
         DB::table('addresses')->insert([
             [
-                'appid'    =>  0,
+                'app_id'    =>  1,
+                'disk'      =>  'local',
                 'url'       =>  'http://www.baidu.com',
             ],
         ]);
