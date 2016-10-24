@@ -1,10 +1,12 @@
 @extends('layouts.app')
 
-@section('seo')
+@section('header')
     <meta name="_token" content="{{ csrf_token() }}"/>
 @endsection
 
-@section('header')
+@section('content')
+    {{-- <script src="{{ asset('js/jquery.uploadify.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('js/jquery.ajaxfileupload.js') }}"></script> --}}
     <script src="//cdn.bootcss.com/jquery.form/3.51/jquery.form.min.js"></script>
 
     <link rel="stylesheet" href="{{ asset('css/uploadify.css') }}">
@@ -39,19 +41,19 @@
     .files{height:22px; line-height:22px; margin:10px 0}
     .delimg{margin-left:20px; color:#090; cursor:pointer}
     </style>
-@endsection
+    <script>var num = 0</script>
 
-@section('content')
-    {{-- <script src="{{ asset('js/jquery.uploadify.min.js') }}"></script> --}}
-    {{-- <script src="{{ asset('js/jquery.ajaxfileupload.js') }}"></script> --}}
 
     <div class="container">
     	<div class="hero-unit">
 
-
+            @foreach ($app->screenshots()->get() as $screenshot)
+                {{-- <script>num = {{ $screenshot->id }}</script> --}}
+                <img class="image-{{$screenshot->id}}" src="{{ $screenshot->url }}"></img>
+            @endforeach
             <div class="btn">
-                <span>添加附件</span>
-                {!! Form::file('file_upload', ['id' => 'file_upload','multiple' => true]) !!}
+                <span>添加截图</span>
+                {!! Form::file('screenshot_upload', ['id' => 'screenshot_upload','multiple' => true]) !!}
             </div>
             <br />
             <div class="progress">
@@ -89,17 +91,17 @@
                 {!! Form::text('tag', null, ['id'  =>  'tag',
                                             'style' =>  'width:502px;']) !!}</p>
 
-            <p>{!! Form::label('热门标签：') !!}
+            {{-- <p>{!! Form::label('热门标签：') !!}
             @foreach($hotTags as $tag)
                 <a href="javascript:void(0)" onClick="javascript:selecttag('{{ $tag['name'] }}')">{{ $tag['name'] }}&nbsp;&nbsp;&nbsp;</a>
             @endforeach
-            </p>
+            </p> --}}
 
             {{-- 介绍 --}}
             {!! Form::text('introduction', null, ['id' => 'editinput', 'style'=>'width:400px; height:200px']) !!}
 
-            <p>{!! Form::label('内容摘要：') !!}
-                {!! Form::text('description', null, ['style'   =>  'width:502px;']) !!}</p>
+            {{-- <p>{!! Form::label('内容摘要：') !!}
+                {!! Form::text('description', null, ['style'   =>  'width:502px;']) !!}</p> --}}
 
             {!! Form::submit('发布',['onclick'    =>  'editor.post()']) !!}
 
@@ -155,8 +157,10 @@
     {
     	document.getElementById('tag').value += tag + ',';
     }
+    </script>
 
-        $(document).ready(function(){
+    <script>
+        $(function(){
             var bar = $(".bar");
             var percent = $(".percent");
             var showimg = $("showimg");
@@ -168,11 +172,11 @@
             var size  = document.getElementById("filesize");
             // var ext   = document.getElementById("fileext");
             var url   = document.getElementById("url");
-            $("#file_upload").wrap("<form id='myupload' action='{{ route('website.app.uploader') }}' method='post' enctype='multipart/form-data'></form>");
+            $("#screenshot_upload").wrap("<form id='myupload' action='{{ route('website.app.uploadImage') }}' method='post' enctype='multipart/form-data'></form>");
             $("#myupload").change(function(){
                 $("#myupload").ajaxSubmit({
                     dataType:  'json',   //数据格式为json
-                    data: {'_token': '{{ csrf_token() }}'},
+                    data: {'_token': '{{ csrf_token() }}', 'app_id':"{{ $app->id }}"},
                      beforeSend: function() { //开始上传
                          showimg.empty(); //清空显示的图片
                          progress.show(); //显示进度条
@@ -187,10 +191,12 @@
                          percent.html(percentVal); //显示上传进度百分比
                      },
                      success: function(data) { //成功
-                        title.value = data.title;
-                        url.value = data.url;
-                        filename.value = data.filename;
-                        size.value = data.size;
+                        //  var num = 1;
+                        // title.value = data.title;
+                        // url.value = data.url;
+                        // filename.value = data.filename;
+                        // size.value = data.size;
+
                         //  获得后台返回的json数据，显示文件名，大小，以及删除按钮
                         //  files.html("<b>"+data.filename+"("+data.size+"k)</b>
                         //  <span class='delimg' rel='"+data.path+"'>删除</span>");

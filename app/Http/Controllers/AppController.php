@@ -12,6 +12,7 @@ use App\Model\Type;
 use App\Model\Tag;
 use App\Model\Setting;
 use App\Model\Address;
+use App\Model\Screenshot;
 
 use App\Http\Requests;
 
@@ -83,7 +84,10 @@ class AppController extends Controller
      */
     public function edit($id)
     {
-        //
+        $app = App::findOrFail($id);
+        $types = Type::all();
+
+        return view('app.edit', compact('app','types'));
     }
 
     /**
@@ -130,6 +134,31 @@ class AppController extends Controller
         );
         //
         echo json_encode($file_info);
+    }
+
+    /**
+     * [uploadImage 上传截图]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function uploadImage(Request $request){
+        $file = $request->file('screenshot_upload');
+
+        $title = splitFileName($file->getClientOriginalName());
+
+        $file->storeAs('public/screenshots', Pinyin::permalink($title['name']).".".$title['ext']);
+        $url = Storage::url('screenshots/'.Pinyin::permalink($title['name']).".".$title['ext']);
+
+        $data = [
+            'url'   => $url,
+        ];
+
+        $app = App::findOrFail($request->app_id);
+        $screenshot = new Screenshot(['url'   =>  $url]);
+        $screenshot = $app->screenshots()->save($screenshot);
+
+        echo json_encode(['url' => $url, 'id' => $screenshot->id]);
+
     }
 
 

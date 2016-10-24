@@ -15,7 +15,7 @@ class IndexController extends Controller
     public function index() {
         $types = Type::all();
         $apps = App::all();
-        // dd($apps);
+
         return view('index.index', compact('types', 'apps'));
     }
 }

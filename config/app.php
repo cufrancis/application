@@ -182,8 +182,7 @@ return [
 
         Overtrue\LaravelPinyin\ServiceProvider::class,
 
-
-
+        Intervention\Image\ImageServiceProvider::class,
     ],
 
     /*
@@ -236,6 +235,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
 
         'Pinyin' => Overtrue\LaravelPinyin\Facades\Pinyin::class,
+        'Image' => Intervention\Image\Facades\Image::class,
 
 
     ],

@@ -1,61 +1,94 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="keywords" content="{{ Setting()->get('keywords') }}" />
-	<meta name="description" content="{{ Setting()->get('description') }}" />
-	<meta name="author" content="{{ Setting()->get('author') }}" />
-	<meta name="copyright" content="© http://hbdx.cc" />
-	<meta charset="utf-8">
-	<title>{{ Setting()->get('website_title') }}</title>
-	<link rel="stylesheet" href="{{ asset('css/style.css') }}" />
-	<script>var Home = "{{ url('/') }}"</script>
-	{{-- <script src="{{ asset('js/jquery-1.10.2.min.js') }}"></script> --}}
-	<script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
-	@yield('header')
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    @yield('seo')
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Styles -->
+    <link href="/css/app.css" rel="stylesheet">
+
+    <!-- Scripts -->
+    <script>
+        window.Laravel = <?php echo json_encode([
+            'csrfToken' => csrf_token(),
+        ]); ?>
+    </script>
+    <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+    @yield('header')
 </head>
 <body>
-<div class="navbar">
-	<div class="navbar-inner">
-		<div class="container">
-			<div class="nav">
-				<li><a href="{{ url('/') }}">首页</a></li>
-				@foreach(AppTypes()->getAll() as $type)
-					<li><a href="{{ route('website.type.show', $type['id']) }}"><?php echo $type['name'] ?></a></li>
-				@endforeach
-			</div>
-			<div class="navr">
-				@if(!Auth::guest())
-					{{-- 是否是管理员 --}}
-					@if(Auth::admin())
-						<a href="">会员</a>&nbsp;&nbsp;&nbsp;
-						<a href="">系统</a>&nbsp;&nbsp;&nbsp;
-					@endif
-					<a href="">个人</a>&nbsp;&nbsp;&nbsp;
-					<a href="">资源</a>&nbsp;&nbsp;&nbsp;
-					<a href=">">收藏</a>&nbsp;&nbsp;&nbsp;
-					<a href="">发布</a>&nbsp;&nbsp;&nbsp;
-					<a href="">注销</a>&nbsp;&nbsp;&nbsp;
-				@else
-					<a href="">注册</a>&nbsp;&nbsp;&nbsp;
-					<a href="">登录</a>
-				@endif
-			</div>
-		</div>
-	</div>
-</div>
-@yield('content')
+    <div id="app">
+        <nav class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
 
-</div>
-</div>
-<div class="scf-footer">
-<ul class="scf-link-list">合作网站：
-    <li><a href="http://down.admin5.com" target="_blank">A5源码</a></li>
-    <li><a href="http://down.chinaz.com/" target="_blank">站长下载</a></li>
-    <li><a href="http://www.tudou.com/home/dolphin836" target="_blank">视频教程</a></li>
-    <li class="last"><a href="http://blog.hbdx.cc" target="_blank">站长博客</a></li><br />
-</ul><p>Copyright © 2013 <a href="http://d.hbdx.cc" target="_blank">Simple Down v6.2</a>. All Rights Reserved. <a href="http://hbdx.cc" target="_blank">海兵大侠</a> 版权所有
-</div>
+                    <!-- Collapsed Hamburger -->
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+                        <span class="sr-only">Toggle Navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
 
+                    <!-- Branding Image -->
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        {{ config('app.name', 'Laravel') }}
+                    </a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="nav navbar-nav">
+                        @foreach (AppTypes()->getAll() as $type)
+                            <li><a href="{{ route('website.type.show', $type->id) }}">{{ $type->name }}</a></li>
+                        @endforeach
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="nav navbar-nav navbar-right">
+                        <!-- Authentication Links -->
+                        @if (Auth::guest())
+                            <li><a href="{{ url('/login') }}">Login</a></li>
+                            <li><a href="{{ url('/register') }}">Register</a></li>
+                        @else
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu" role="menu">
+                                    <li>
+                                        <a href="{{ url('/logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            Logout
+                                        </a>
+
+                                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endif
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        @yield('content')
+    </div>
+
+    <!-- Scripts -->
+    @yield('js')
+    {{-- <script src="/js/app.js"></script> --}}
 </body>
 </html>

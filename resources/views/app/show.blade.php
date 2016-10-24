@@ -1,5 +1,10 @@
 @extends('layouts.app')
 
+@section('header')
+    <link rel="stylesheet" type="text/css" href="{{ asset('easySlider/css/style.css') }}">
+    <script src="{{ asset('easySlider/dist/easySlider.js') }}"></script>
+@endsection
+
 @section('content')
     <style>
     #common_content_main{background:#fff;position:relative;}
@@ -64,6 +69,28 @@
 发布日期：{{ $app['created_at'] }}<br />
 资源介绍：<br />{{ $app['introduction'] }}<br />
 <hr />
+软件截图<br />
+
+
+<div id="slider">
+  <ul class="slides">
+      @foreach ($app->screenshots()->get() as $screenshot)
+          <li><img class="responsive" src="{{ asset($screenshot->url) }}" /></li>
+      @endforeach
+  </ul>
+
+  <ul class="controls">
+      <li><img src="{{ asset('easySlider/img/prev.png') }}" alt="previous"></li>
+      <li><img src="{{ asset('easySlider/img/next.png') }}" alt="next"></li>
+  </ul>
+
+  {{-- <ul class="pagination">
+      @foreach ($app->screenshots()->get() as $screenshot)
+          <li></li>
+      @endforeach
+  </ul> --}}
+</div>
+
     <div class="Download">
         下载地址
     </div>
@@ -75,7 +102,12 @@
     </div>
 </div>
 
+@endsection
 
-
-
+@section('js')
+    <script>
+        $(function() {
+            $("#slider").easySlider({});
+        });
+    </script>
 @endsection
