@@ -15,9 +15,10 @@ Route::get('/', 'IndexController@index');
 
 // Route::group()
 // 显示分类
-Route::get('/type/{typeid}/show', ['as' => 'website.type.show', 'uses' => 'TypeController@show']);
+Route::get('/type/{typeid}', ['as' => 'website.type.show', 'uses' => 'TypeController@show']);
 
-Route::get('/app/{appid}/show', ['as' => 'website.app.show', 'uses' => 'AppController@show']);
+Route::get('/app/{appid}', ['as' => 'website.app.show', 'uses' => 'AppController@show']);
+// Route::get('/app/{appid}/show', ['as' => 'website.app.show', 'uses' => 'AppController@show']);
 
 Route::group([
     // 'prefix' => 'admin'
